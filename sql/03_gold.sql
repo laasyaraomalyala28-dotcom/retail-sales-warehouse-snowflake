@@ -17,3 +17,19 @@ SELECT
     SUM(sales_price) AS total_sales
 FROM SILVER.FACT_SALES
 GROUP BY sales_year;
+
+CREATE OR REPLACE TABLE GOLD.MONTHLY_SALES AS
+SELECT
+    DATE_TRUNC('month',transaction_date)AS sales_month,
+    SUM(sales_price)AS total_sales
+FROM SILVER.FACT_SALES
+GROUP BY sales_month;
+
+CREATE OR REPLACE TABLE GOLD.TOP_STORES AS
+SELECT
+    store_id,
+    SUM(sales_price) AS total_sales
+FROM SILVER.FACT_SALES
+GROUP BY store_id
+ORDER BY total_saales DESC
+LIMIT 10;
