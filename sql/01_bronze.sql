@@ -1,32 +1,26 @@
 USE DATABASE SNOWFLAKE_SAMPLE_DATA;
-
 DESC TABLE TPCDS_SF100TCL.STORE_SALES;
 
-SELECT COUNT(*)
-FROM TPCDS_SF100TCL.STORE_SALES;
+SELECT COUNT(*) FROM TPCDS_SF100TCL.STORE_SALES;
 
 USE WAREHOUSE COMPUTE_WH;
-
 USE DATABASE SNOWFLAKE_LEARNING_DB;
-
 CREATE SCHEMA IF NOT EXISTS BRONZE;
 
-create or replace table bronze.STORE_SALES_RAW AS
+CREATE OR REPLACE TABLE BRONZE.STORE_SALES AS
 SELECT *
 FROM SNOWFLAKE_SAMPLE_DATA.TPCDS_SF100TCL.STORE_SALES
-
 LIMIT 50000000;
 
-SELECT count(*) from BRONZE.STORE_SALES_RAW;
+SELECT COUNT(*) FROM BRONZE.STORE_SALES;
 
+SELECT COUNT(*) FROM SNOWFLAKE_SAMPLE_DATA.TPCDS_SF100TCL.STORE_SALES;
 
-select count(*)
-from snowflake_sample_data.tpcds_sf100tcl.store_sales;
+DESC TABLE BRONZE.STORE_SALES;
 
-desc table bronze.store_sales_raw;
-
-select count(*) as total_rows,count(ss_sales_price) as non_null_sales_price
-from bronze.store_sales_raw;
+SELECT COUNT(*) AS TOTAL_ROWS,
+    COUNT(ss_sales_price) as non_null_sales_price
+FROM BRONZE.STORE_SALES;
 
 select min(ss_sold_date_sk),max(ss_sold_date_sk)
-from bronze.store_sales_raw;
+from BRONZE.STORE_SALES;

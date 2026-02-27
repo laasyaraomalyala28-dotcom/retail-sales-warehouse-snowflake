@@ -1,3 +1,4 @@
+-- =====================================================
 -- 05_incremental_load.sql
 -- Incremental Load with SCD Type 2 + Historical Join
 -- =====================================================

@@ -1,6 +1,5 @@
 USE WAREHOUSE COMPUTE_WH;
 USE DATABASE SNOWFLAKE_LEARNING_DB;
-
 CREATE OR REPLACE TABLE SILVER.STORE_SALES_ENRICHED AS
 SELECT
     ss.ss_customer_sk,
@@ -11,6 +10,7 @@ FROM SILVER.STORE_SALES_CLEAN ss
 JOIN SNOWFLAKE_SAMPLE_DATA.TPCDS_SF100TCL.DATE_DIM d
     ON ss.ss_sold_date_sk = d.d_date_sk;
 
+--- PROPER SQL JOIN QUERY
 SELECT
     f.transaction_date,
     d.state,
@@ -26,17 +26,20 @@ GROUP BY
 ORDER BY
     f.transaction_date;
 
- CREATE OR REPLACE TABLE SILVER.FACT_STAGE (
+-- simulate the incremental fact load
+
+    CREATE OR REPLACE TABLE SILVER.FACT_STAGE (
     customer_id NUMBER,
     store_id NUMBER,
     sales_price NUMBER,
     transaction_date DATE
 );
-
+-- insert the increemntal data
 INSERT INTO SILVER.FACT_STAGE VALUES
 (101, 10, 500, '2024-01-10'),
 (101, 10, 700, '2021-01-10');
 
+-- Load the facts with surrogate keys
 
 DROP TABLE IF EXISTS SILVER.CUSTOMER_DIM;
 
